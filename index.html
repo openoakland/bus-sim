@@ -115,16 +115,17 @@
 
       var activeBusId = 0
       var busData = {}
-      var server = new EventSource('http://nextbus.dathub.org/_changes?include_data=true&style=sse&tail=true&live=true')
+      var server = new EventSource('http://nextbus.dathub.org/_changes?include_data=true&style=sse&tail=1&live=true')
 
       server.addEventListener('data', function (e) {
           cockpit.style.display = 'inherit';
           loading.style.display = 'none';
           var bus = JSON.parse(e.data).data
+          var exists = !!busData[bus.id]
           busData[bus.id] = bus
           console.log('Update', bus.id, bus.routeTag)
   
-          document.getElementById('buses').innerHTML += '<option id="bus'+bus.id+'" value="'+bus.id+'">' + bus.id + ' route ' + bus.routeTag + '</option>'
+          if (!exists) document.getElementById('buses').innerHTML += '<option id="bus'+bus.id+'" value="'+bus.id+'">' + bus.id + ' route ' + bus.routeTag + '</option>'
   
           // set the first in-service bus we find to the active bus
           if (activeBusId && activeBusId !== bus.id) { return }
