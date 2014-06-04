@@ -115,7 +115,7 @@
 
       var activeBusId = 0
       var busData = {}
-      var server = new EventSource('http://nextbus.dathub.org/_changes?include_data=true&style=sse&tail=1&live=true')
+      var server = new EventSource('http://nextbus.dathub.org/api/changes?data=true&style=sse&tail=1&live=true')
 
       server.addEventListener('data', function (e) {
           cockpit.style.display = 'inherit';
